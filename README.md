@@ -19,8 +19,8 @@
   - Django 및 파이썬 + html을 통한 추천 사이트 구축
 
 ### 4. 참고자료
-  - 망고플레이트
+  - 망고플레이트 리뷰
 
 -------------------
-  ![image](https://user-images.githubusercontent.com/29995264/137684087-1978791f-fceb-41e4-be6f-6244ce12596b.png)
+  ![image](https://user-images.githubusercontent.com/29995264/137686026-390aa480-d37c-4c0d-be1e-8481990933f8.png)
 -------------------
