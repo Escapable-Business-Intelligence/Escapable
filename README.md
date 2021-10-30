@@ -9,16 +9,18 @@
 ### 2. 목표
   - 방탈출 카페끼리 비교를 좀더 명확한 방식으로 할 수 있다.
       
+  - 기본적인 만족도 예상 및 탈출 성공,실패를 동시에 제공하여 합리적인 선택을 가능하게 함.
+  
   - 취향에 맞춘 방탈출 카페 추천을 통해 **유저**의 음식점 이용의 만족도를 높인다.
       
 ### 3. 구현방법
-  - 전국방탈출(https://www.roomescape.co.kr/theme/detail.php?theme=578) 리뷰를 통한 서울 지역 음식점 데이터 분석
-  - 머신러닝을 통한 추천시스템 오차 감소
+  - [**전국방탈출**](https://www.roomescape.co.kr/theme/detail.php?theme=578) 리뷰를 통한 서울 지역 음식점 데이터 분석
+  - Matrix factorization을 통한 추천 최적화
   - Django 및 파이썬 + html을 통한 추천 사이트 구축
 
 ### 4. 참고자료
-  - 망고플레이트 리뷰
+  - 전국방탈출 리뷰
 
 -------------------
-  ![image](https://user-images.githubusercontent.com/29995264/137686026-390aa480-d37c-4c0d-be1e-8481990933f8.png)
+  ![image](https://user-images.githubusercontent.com/55437339/139399748-8942524c-7991-4beb-8526-d9cfb3c27b7e.png)
 -------------------
