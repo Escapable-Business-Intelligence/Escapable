@@ -11,11 +11,12 @@
       
   - 기본적인 만족도 예상 및 탈출 성공,실패를 동시에 제공하여 합리적인 선택을 가능하게 함.
   
-  - 취향에 맞춘 방탈출 카페 추천을 통해 **유저**의 음식점 이용의 만족도를 높인다.
+  - 취향에 맞춘 방탈출 카페 추천을 통해 **유저**의 방탈출 이용의 만족도를 높인다.
       
 ### 3. 구현방법
-  - [**전국방탈출**](https://www.roomescape.co.kr/theme/detail.php?theme=578) 리뷰를 통한 서울 지역 음식점 데이터 분석
+  - [**전국방탈출**](https://www.roomescape.co.kr/theme/detail.php?theme=578) 리뷰를 통한 서울 지역 방탈출 데이터 분석
   - Matrix factorization을 통한 추천 최적화
+  - Latent Factor Collaborate Filtering을 이용한 추천 시스템 알고리즘 구축
   - Django 및 파이썬 + html을 통한 추천 사이트 구축
 
 ### 4. 참고자료
