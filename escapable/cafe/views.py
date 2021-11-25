@@ -6,6 +6,9 @@ from django.http import JsonResponse
 
 from .models import Cafe
 from .models import Thema
+from .models import Review
+
+import pandas as pd
 
 def index(request):
 
@@ -31,3 +34,13 @@ def selectThema(request):
     thema_list = list(thema_list.values())
 
     return JsonResponse(thema_list, safe=False)
+
+
+def test(request):
+  review_list = Review.objects.all()
+  matrix = pd.DataFrame.from_records([c.to_dict() for c in review_list])
+  review_matrix = matrix.pivot_table('user_rate', index='user_nickname', columns='thema_name', aggfunc='first') # 사용자-테마 행렬
+
+  print(review_matrix)
+
+  return HttpResponse(review_matrix)

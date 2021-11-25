@@ -11,6 +11,15 @@ class Cafe(models.Model):
     class Meta:
         managed = False
         db_table = 'cafe'
+  
+    def to_dict(self):
+      return {
+          "cafe_index" : self.cafe_index,
+          "cafe_name" : self.cafe_name,
+          "cafe_info" : self.cafe_info,
+          "cafe_number" : self.cafe_number,
+          "cafe_address" : self.cafe_address
+      }
 
 
 class Review(models.Model):
@@ -26,6 +35,19 @@ class Review(models.Model):
     class Meta:
         managed = False
         db_table = 'review'
+
+    def to_dict(self):
+      return {
+          "review_index" : self.review_index,
+          "cafe_name" : self.cafe_name,
+          "thema_name" : self.thema_name,
+          "user_left_name" : self.user_left_time,
+          "user_difficulty" : self.user_difficulty,
+          "user_escape" : self.user_escape,
+          "user_rate" : self.user_rate,
+          "user_nickname" : self.user_nickname,
+
+      }
 
 
 class Thema(models.Model):
