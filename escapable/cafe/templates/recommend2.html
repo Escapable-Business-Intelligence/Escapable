@@ -1,0 +1,415 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ko">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+		<meta name="description" content="">
+		<meta name="author" content="">
+		<link rel="icon" href="logo.png">
+		<title>Escapble</title>
+		<!-- Bootstrap core CSS -->
+		<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+		<!-- Custom styles for this template -->
+		<link href="{% static 'css/owl.carousel.css' %}" rel="stylesheet">
+		<link href="{% static 'css/owl.theme.default.min.css' %}"  rel="stylesheet">
+		<link href="{% static 'css/style.css' %}" rel="stylesheet">
+	</head>
+	<body id="page-top">
+		<!-- Navigation -->
+		<nav class="navbar navbar-default navbar-fixed-top">
+			<div class="container">
+				<!-- Brand and toggle get grouped for better mobile display -->
+				<div class="navbar-header page-scroll">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand page-scroll" href="/"><img src="{% static 'images/logo.png' %}" alt="Escapable logo" style="width: inherit; height: inherit;"></a>
+				</div>
+				<!-- Collect the nav links, forms, and other content for toggling -->
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+					<ul class="nav navbar-nav navbar-right">
+						<li class="hidden">
+							<a href="#page-top"></a>
+						</li>
+						<li>
+							<a class="page-scroll" href="/#about">About</a>
+						</li>
+						<li>
+							<a class="page-scroll" href="/recommend">Recommend</a>
+						</li>
+						<li>
+							<a class="page-scroll" href="/#team">Team</a>
+						</li>
+						<li>
+							<a class="page-scroll" href="/#contact">Contact</a>
+						</li>
+					</ul>
+				</div>
+				<!-- /.navbar-collapse -->
+			</div>
+			<!-- /.container-fluid -->
+		</nav>
+
+		<!-- Header -->
+		<header>
+			<div class="container">
+				<div class="slider-container">
+					<div class="intro-text">
+						<div class="intro-lead-in">자세한 리뷰를 통해 방탈출 테마 추천 및 탈출 예측 정보 받기</div><br>
+					</div>
+				</div>
+			</div>
+		</header>
+
+		<section id="review" class="light-bg">
+			<div class="container">
+				<div class="row">
+					<div class="section-text">
+						<h3>방탈출 테마에 대한 경험(평점만)을 알려주세요</h3>
+						<p>이를 분석하여 방탈출 테마 추천을 해드립니다<br>많은 테마에 대한 정보를 남겨주실 수록 더 정확한 추천이 가능합니다.</p>
+
+						<ul id="ul_list">
+							<li>
+								<table>
+									<div class="selectbox">
+										<tr>
+											<td>
+												<label for="cafe2_1">방탈출 카페를 선택하세요</label>
+											</td>
+											<td>
+												<select name="cafe" id="cafe2_1" class="select" onchange="searchThema(1)">
+													<option value="-1" selected>방탈출 카페를 선택하세요</option>
+													{% for cafe in cafe_list %}
+													<option value="{{cafe.cafe_name}}">{{cafe.cafe_name}}</option>
+													{% endfor %}
+												</select>
+											</td>
+										</tr>
+									</div>
+									<div class="selectbox">
+										<tr>
+											<td>
+												<label for="thema2_1">방탈출 테마를 선택하세요</label>
+											</td>
+											<td>
+												<select name="thema" id="thema2_1" class="select">
+													<option value="-1" selected>방탈출 테마를 선택하세요</option>
+												</select>
+											</td>
+										</tr>
+									</div>
+									<tr>
+										<td>
+											<label>평점(5.0만점)</label>
+										</td>
+										<td>
+											<input type="number" min="0" max="5" step="0.1" name="user_rate" id="rate2_1" required="">
+										</td>
+									</tr>
+									<div class="selectbox">
+										<tr>
+											<td>
+												<label>탈출 여부</label>
+											</td>
+											<td>
+												<select name="user_escape" id="escape2_1" class="select">
+													<option value="-1" selected>탈출했나요?</option>
+													<option value="1">Yes</option>
+													<option value="0">No</option>
+												</select>
+											</td>
+										</tr>
+									</div>
+									<div class="selectbox">
+										<tr>
+											<td>
+												<label>체감 난이도</label>
+											</td>
+											<td>
+												<select name="user_difficulty" id="difficulty2_1" class="select">
+													<option value="-1" selected>체감 난이도</option>
+													<option value="매우 쉬움">매우 쉬움</option>
+													<option value="쉬움">쉬움</option>
+													<option value="보통">보통</option>
+													<option value="어려움">어려움</option>
+													<option value="매우 어려움">매우 어려움</option>
+												</select>
+											</td>
+										</tr>
+									</div>
+								</table>
+
+							</li>
+
+						</ul>
+
+					</div>
+
+					<div class="owl-portfolio-item"><input type="button" class="btn" id="btn_add" onclick="action_add()" value="리뷰할 테마 추가"/></div><br><br>
+					<div class="owl-portfolio-item"><button type="button" class="page-scroll btn btn-xl" onclick="validate()">추천받기</button></div>
+
+				</div>
+			</div>
+			<div style="margin: 200px;">	
+			</div>
+		</section>
+
+		<section id="result">
+			<div class="container">
+			<div class="row">
+				<div class="col-lg-12 text-center">
+					<div class="section-title">
+						<h2>테마 추천 목록</h2>
+						<p>리뷰를 분석하여 추천해드리는 테마 목록입니다</p>
+					</div>
+				</div>
+			</div>
+			<div class="row row-0-gutter" id="results">
+				
+				
+				
+			</div>
+			</div><!-- end container -->
+
+			<div style="margin: 200px;">	
+			</div>
+		</section>
+		
+		
+		<p id="back-top">
+			<a href="#top"><i class="fa fa-angle-up"></i></a>
+		</p>
+
+		<footer>
+			<div class="container text-center">
+				<p>Designed by <a href="http://moozthemes.com"><span>SOOBEEN</span>escapable team</a></p>
+			</div>
+		</footer>
+
+		<!-- Bootstrap core JavaScript
+			================================================== -->
+		<!-- Placed at the end of the document so the pages load faster -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+		<script src="{% static 'js/bootstrap.min.js' %}"></script>
+		<script src="{% static 'js/owl.carousel.min.js' %}"></script>
+		<script src="{% static 'js/cbpAnimatedHeader.js' %}"></script>
+		<script src="{% static 'js/jquery.appear.js' %}"></script>
+		<script src="{% static 'js/SmoothScroll.min.js' %}"></script>
+		<script src="{% static 'js/mooz.themes.scripts.js' %}"></script>
+
+		<script>
+		
+		var num = 1;
+
+			function action_add(){
+				num++;
+
+				var ul_list = $("#ul_list");
+				ul_list.append("<li>\
+								<table>\
+									<div class='selectbox'>\
+										<tr>\
+											<td>\
+												<label for='cafe2_"+ num +"'>방탈출 카페를 선택하세요</label>\
+											</td>\
+											<td>\
+												<select name='cafe' id='cafe2_"+ num +"' class='select' onchange='searchThema("+ num +")'>\
+													<option value='-1' selected>방탈출 카페를 선택하세요</option>\
+													{% for cafe in cafe_list %}\
+													<option value='{{cafe.cafe_name}}'>{{cafe.cafe_name}}</option>\
+													{% endfor %}\
+												</select>\
+											</td>\
+										</tr>\
+									</div>\
+									<div class='selectbox'>\
+										<tr>\
+											<td>\
+												<label for='thema2_1'>방탈출 테마를 선택하세요</label>\
+											</td>\
+											<td>\
+												<select name='thema' id='thema2_"+ num +"' class='select'>\
+													<option value='-1' selected>방탈출 테마를 선택하세요</option>\
+												</select>\
+											</td>\
+										</tr>\
+									</div>\
+									<tr>\
+										<td>\
+											<label>평점(5.0만점)</label>\
+										</td>\
+										<td>\
+											<input type='number' min='0' max='5' step='0.1' id='rate2_"+ num +"' name='user_rate' required=''>\
+										</td>\
+									</tr>\
+									<div class='selectbox'>\
+										<tr>\
+											<td>\
+												<label>탈출 여부</label>\
+											</td>\
+											<td>\
+												<select name='user_escape' id='escape2_"+ num +"' class='select'>\
+													<option value='-1' selected>탈출했나요?</option>\
+													<option value='1'>Yes</option>\
+													<option value='0'>No</option>\
+												</select>\
+											</td>\
+										</tr>\
+									</div>\
+									<div class='selectbox'>\
+										<tr>\
+											<td>\
+												<label>체감 난이도</label>\
+											</td>\
+											<td>\
+												<select name='user_difficulty' id='difficulty2_"+ num +"' class='select'>\
+													<option value='-1' selected>체감 난이도</option>\
+													<option value='매우 쉬움'>매우 쉬움</option>\
+													<option value='쉬움'>쉬움</option>\
+													<option value='보통'>보통</option>\
+													<option value='어려움'>어려움</option>\
+													<option value='매우 어려움'>매우 어려움</option>\
+												</select>\
+											</td>\
+										</tr>\
+									</div>\
+								</table></li>");
+			}
+
+			function searchThema(num) {
+				var cafeName = $("#cafe2_"+ num + " > option:selected").val();
+
+				$.ajax({ 
+					type: 'POST', 
+					url: "/selectThema",
+					dataType: "json",
+					data: JSON.stringify(cafeName),
+					success: function(data){
+						if( typeof(data) != "undefined" ) {
+							
+							var list = data;
+
+							if(Array.isArray(list) && list.length === 0) {
+								$("#thema2_"+ num).html("<option value=''>방탈출 테마가 없습니다</option>");
+							}
+							else {
+								$("#thema2_"+ num).html("<option value=''>방탈출 테마를 선택하세요</option>");
+	
+								$(list).each(function(i) {
+									var thema_name = list[i].thema_name;
+									$("#thema2_"+ num).append("<option value='" + thema_name + "'>" + thema_name + "</option>");
+								});
+							}
+
+						} 
+						else if(data.result == "error") {
+							alert("오류");
+						}
+					},
+					error: function(error) {
+						alert(error);
+					}
+				});
+			}
+
+			function validate(){
+				
+				var data_list = new Array();
+				
+				for(i = 1; i <= list2; i++) {
+					var cafe_name = $("#cafe2_"+ i + " > option:selected").val();
+					var thema_name = $("#thema2_"+ i + " > option:selected").val();
+					var user_rate = $("#rate2_"+ i).val();
+					var user_escape = $("#escape2_"+ i + " > option:selected").val();
+					var user_difficulty = $("#difficulty2_"+ i + " > option:selected").val();
+
+					if(cafe_name == -1) {
+						alert("카페를 선택해 주세요.");
+						return false;
+					}
+					else if(thema_name == -1) {
+						alert("테마를 선택해 주세요.");
+						return false;
+					}
+					else if((user_rate < 0 || user_rate > 5)) {
+						alert("0~5점 사이의 숫자를 입력해주세요.");
+						return false;
+					}
+					else if(user_escape == -1) {
+						alert("탈출여부를 선택해 주세요.");
+						return false;
+					}
+					else if(user_difficulty == -1) {
+						alert("체감난이도를 선택해 주세요.");
+						return false;
+					}
+
+					var data = new Object(); 
+					data.cafe_name = cafe_name;
+					data.thema_name = thema_name;
+					data.user_rate = user_rate;
+					data.user_escape = user_escape;
+					data.user_difficulty = user_difficulty;
+
+					data_list.push(data);
+				}
+
+				$.ajax({ 
+					type: 'POST', 
+					url: "/recommendThema2",
+					dataType: "json",
+					data: JSON.stringify(data_list),
+					success: function(data){
+						if(data) {
+							var list = data.result;
+
+							if(Array.isArray(list) && list.length === 0) {
+								$("#results").html("추천테마가 없습니다.");
+							}
+							else {
+								$(list).each(function(i) {
+									var cafe_name = list[i].cafe_name;
+									var thema_name = list[i].thema_name;
+									var thema_picture = list[i].thema_picture;
+
+									var html = "<div class='col-md-4 col-0-gutter'>\
+													<div class='ot-portfolio-item'>\
+														<figure class='effect-bubba'>\
+															<img src='{% 'images/demo/portfolio-1.jpg' %}' alt='img02' class='img-responsive' />\
+															<figcaption>\
+																<h2>" + thema_name + "</h2>\
+																<p>" + cafe_name + "</p>\
+																<a href='#' data-toggle='modal' data-target='#Modal-1'>View more</a>\
+															</figcaption>\
+														</figure>\
+													</div>\
+												</div>";
+									$("#results").append(html);
+								});
+							}
+							
+							alert("결과페이지로 이동");
+							location.href = "#result";
+						}
+					},
+					error: function(error) {
+						alert(error);
+					}
+				});
+
+				return false;
+
+			}
+
+		</script>
+	</body>
+</html>
