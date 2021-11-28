@@ -12,6 +12,14 @@ class Cafe(models.Model):
         managed = False
         db_table = 'cafe'
 
+    def to_dict(self):
+        return {
+            "cafe_index" : self.cafe_index,
+            "cafe_name" : self.cafe_name,
+            "cafe_info" : self.cafe_info,
+            "cafe_number" : self.cafe_number,
+            "cafe_address" : self.cafe_address
+        }
 
 class Review(models.Model):
     review_index = models.AutoField(primary_key=True)

@@ -267,12 +267,16 @@
 					var thema_name = $("#thema_"+ i + " > option:selected").val();
 					var user_rate = $("#rate_"+ i).val();
 
-					if(cafe_name == -1) {
+					if(cafe_name == "" || cafe_name == -1) {
 						alert("카페를 선택해 주세요.");
 						return false;
 					}
-					else if(thema_name == -1) {
+					else if(thema_name == "" || thema_name == -1) {
 						alert("테마를 선택해 주세요.");
+						return false;
+					}
+					else if((user_rate == "")) {
+						alert("평점을 입력해주세요.");
 						return false;
 					}
 					else if((user_rate < 0 || user_rate > 5)) {

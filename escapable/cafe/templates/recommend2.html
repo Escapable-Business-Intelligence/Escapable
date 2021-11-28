@@ -325,30 +325,34 @@
 				
 				var data_list = new Array();
 				
-				for(i = 1; i <= list2; i++) {
+				for(i = 1; i <= num; i++) {
 					var cafe_name = $("#cafe2_"+ i + " > option:selected").val();
 					var thema_name = $("#thema2_"+ i + " > option:selected").val();
 					var user_rate = $("#rate2_"+ i).val();
 					var user_escape = $("#escape2_"+ i + " > option:selected").val();
 					var user_difficulty = $("#difficulty2_"+ i + " > option:selected").val();
 
-					if(cafe_name == -1) {
+					if(cafe_name == "" || cafe_name == -1) {
 						alert("카페를 선택해 주세요.");
 						return false;
 					}
-					else if(thema_name == -1) {
+					else if(thema_name == "" || thema_name == -1) {
 						alert("테마를 선택해 주세요.");
+						return false;
+					}
+					else if((user_rate == "")) {
+						alert("평점을 입력해주세요.");
 						return false;
 					}
 					else if((user_rate < 0 || user_rate > 5)) {
 						alert("0~5점 사이의 숫자를 입력해주세요.");
 						return false;
 					}
-					else if(user_escape == -1) {
+					else if(user_escape == "" || user_escape == -1) {
 						alert("탈출여부를 선택해 주세요.");
 						return false;
 					}
-					else if(user_difficulty == -1) {
+					else if(user_difficulty == "" || user_difficulty == -1) {
 						alert("체감난이도를 선택해 주세요.");
 						return false;
 					}
@@ -384,7 +388,7 @@
 									var html = "<div class='col-md-4 col-0-gutter'>\
 													<div class='ot-portfolio-item'>\
 														<figure class='effect-bubba'>\
-															<img src='{% 'images/demo/portfolio-1.jpg' %}' alt='img02' class='img-responsive' />\
+															<img src='{% static 'images/demo/portfolio-1.jpg' %}' alt='img02' class='img-responsive' />\
 															<figcaption>\
 																<h2>" + thema_name + "</h2>\
 																<p>" + cafe_name + "</p>\
