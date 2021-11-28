@@ -4,6 +4,11 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 from django.http import JsonResponse
 
+import pandas as pd
+import numpy as np
+from sklearn.metrics import mean_squared_error
+
+from .models import Review
 from .models import Cafe
 from .models import Thema
 
@@ -45,38 +50,6 @@ def selectThema(request):
 
     return JsonResponse(thema_list, safe=False)
 
-@csrf_exempt
-def recommendThema1(request):
-    data_list = json.loads(request.body)
-
-    print(data_list)
-
-    #머신러닝 처리 -> 추천 테마 데이터 받아오기
-
-    context = {
-        'result': data_list,
-    }
-
-    return JsonResponse(context, safe=False)
-
-@csrf_exempt
-def recommendThema2(request):
-    data_list = json.loads(request.body)
-
-    #머신러닝 처리 -> 추천 테마 데이터 받아오기
-
-    context = {
-        'result': data_list,
-    }
-
-    return JsonResponse(context, safe=False)
-
-
-import pandas as pd
-import numpy as np
-from sklearn.metrics import mean_squared_error
-
-from .models import Review
 
 def get_rmse(R, P, Q, non_zeros):
     error = 0
@@ -146,27 +119,47 @@ def recomm_movie_by_userid(pred_df, userId, unseen_list, top_n=10):
     
     return recomm_movies
 
-def test(request):
-  review_list = Review.objects.all()
-  matrix = pd.DataFrame.from_records([c.to_dict() for c in review_list])
-  review_matrix = matrix.pivot_table('user_rate', index='user_nickname', columns='thema_name', aggfunc='first') # 사용자-테마 행렬
 
-  P, Q = matrix_factorization(review_matrix.values, K=50, steps=10, learning_rate=0.01, r_lambda=0.01)
-  pred_matrix = np.dot(P, Q.T)
+@csrf_exempt
+def recommendThema1(request):
+    data_list = json.loads(request.body)
 
-  ratings_pred_matrix = pd.DataFrame(data=pred_matrix, index=review_matrix.index, columns=review_matrix.columns)
+    print(data_list)
 
-  # 사용자가 관람하지 않은 영화제목 추출
-  unplayed_list = get_unplayed_themes(review_matrix, ' 탈출출해')
+    review_list = Review.objects.all()
+    matrix = pd.DataFrame.from_records([c.to_dict() for c in review_list])
+    review_matrix = matrix.pivot_table('user_rate', index='user_nickname', columns='thema_name', aggfunc='first') # 사용자-테마 행렬
 
-  # 잠재 요인 협업 필터링으로 영화 추천
-  recomm_themes = recomm_movie_by_userid(ratings_pred_matrix, ' 탈출출해', unplayed_list, top_n=5)
+    P, Q = matrix_factorization(review_matrix.values, K=50, steps=10, learning_rate=0.01, r_lambda=0.01)
+    pred_matrix = np.dot(P, Q.T)
 
-  # 평점 데이터를 DataFrame으로 생성
-  recomm_themes = pd.DataFrame(data=recomm_themes.values, index=recomm_themes.index, columns=['pred_score'])
+    ratings_pred_matrix = pd.DataFrame(data=pred_matrix, index=review_matrix.index, columns=review_matrix.columns)
 
-  print(recomm_themes)
+    # 사용자가 관람하지 않은 영화제목 추출
+    unplayed_list = get_unplayed_themes(review_matrix, ' 탈출출해')
 
-  # print(review_matrix)
+    # 잠재 요인 협업 필터링으로 영화 추천
+    recomm_themes = recomm_movie_by_userid(ratings_pred_matrix, ' 탈출출해', unplayed_list, top_n=5)
 
-  return HttpResponse(recomm_themes)
+    # 평점 데이터를 DataFrame으로 생성
+    recomm_themes = pd.DataFrame(data=recomm_themes.values, index=recomm_themes.index, columns=['pred_score'])
+
+    print(recomm_themes)
+
+    context = {
+        'result': recomm_themes,
+    }
+
+    return JsonResponse(context, safe=False)
+
+@csrf_exempt
+def recommendThema2(request):
+    data_list = json.loads(request.body)
+
+    #머신러닝 처리 -> 추천 테마 데이터 받아오기
+
+    context = {
+        'result': data_list,
+    }
+
+    return JsonResponse(context, safe=False)
