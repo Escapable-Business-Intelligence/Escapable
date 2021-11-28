@@ -103,6 +103,48 @@ def matrix_factorization_rate(R, K, steps=200, learning_rate=0.01, r_lambda=0.01
     return P, Q
 
 
+def matrix_factorization_Escape(R, K, steps=200, learning_rate=0.01, r_lambda=0.01):
+    R = np.array(R, dtype=float)
+    num_users, num_items = R.shape
+    # P와 Q 행렬의 크기를 지정하고 정규 분포를 가진 랜덤한 값으로 입력
+    np.random.seed(1)
+    P = np.random.normal(scale=1. / K, size=(num_users, K))
+    Q = np.random.normal(scale=1. / K, size=(num_items, K))
+
+    prev_rmse = 10000
+    break_count = 0
+
+    # R>0인 행 위치, 열 위치, 값을 non_zeros list 객체에 저장
+    str_non_zeros = [(i, j, R[i, j]) for i in range(num_users) for j in range(num_items) if
+                     R[i, j] == 1 or R[i, j] == -1]
+    for i in range(num_users):
+        for j in range(num_items):
+            if R[i, j] == 1:
+                R[i, j] = 1
+            elif R[i, j] == -1:
+                R[i, j] = 0
+    non_zeros = []
+    for i, j, r in str_non_zeros:
+        if r == 1:
+            non_zeros.append((i, j, 1))
+        elif r == -1:
+            non_zeros.append((i, j, 0))
+    # SGD 기법으로 P와 Q 행렬을 반복 업데이트
+    for step in range(steps):
+        for i, j, r in non_zeros:
+            # 실제 값과 예측 값의 차이인 오류 값 구하기
+            eij = r - np.dot(P[i, :], Q[j, :].T)
+
+            # 정규화를 반영한 SGD 업데이트 공식 적용
+            P[i, :] = P[i, :] + learning_rate * (eij * Q[j, :] - r_lambda * P[i, :])
+            Q[j, :] = Q[j, :] + learning_rate * (eij * P[i, :] - r_lambda * Q[j, :])
+
+        rmse = get_rmse(R, P, Q, non_zeros)
+
+        print("### iteration step:", step, " rmse:", rmse)
+
+    return P, Q
+
 def get_unplayed_themes_rate(review_matrix, userName):
     # userId로 입력받은 사용자의 모든 영화 정보를 추출해 Series로 반환
     # 반환된 user_rating은 영화 제목을 인덱스로 가지는 Series 객체
@@ -120,10 +162,10 @@ def get_unplayed_themes_rate(review_matrix, userName):
     return unplayed_list
 
 
-def recomm_movie_by_userid_rate(pred_df, userId, unseen_list, top_n=10):
-    recomm_movies = pred_df.loc[userId, unseen_list].sort_values(ascending=False)[:top_n]
+def recomm_thema_by_userid_rate(pred_df, userId, unseen_list, top_n=10):
+    recomm_thema = pred_df.loc[userId, unseen_list].sort_values(ascending=False)[:top_n]
 
-    return recomm_movies
+    return recomm_thema
 
 
 @csrf_exempt
@@ -151,7 +193,7 @@ def recommendThema1(request):
     unplayed_list = get_unplayed_themes_rate(review_matrix, 'ESCAPABLE')
 
     # 잠재 요인 협업 필터링으로 영화 추천
-    recomm_themes = recomm_movie_by_userid_rate(ratings_pred_matrix, 'ESCAPABLE', unplayed_list, top_n=6)
+    recomm_themes = recomm_thema_by_userid_rate(ratings_pred_matrix, 'ESCAPABLE', unplayed_list, top_n=6)
 
     # 평점 데이터를 DataFrame으로 생성
     recomm_themes = pd.DataFrame(data=recomm_themes.values, index=recomm_themes.index, columns=['pred_score'])
