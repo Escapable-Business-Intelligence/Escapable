@@ -68,7 +68,7 @@ def get_rmse(R, P, Q, non_zeros):
     return rmse
 
 
-def matrix_factorization(R, K, steps=200, learning_rate=0.01, r_lambda=0.01):
+def matrix_factorization_rate(R, K, steps=200, learning_rate=0.01, r_lambda=0.01):
     num_users, num_items = R.shape
     
     # P와 Q 행렬의 크기를 지정하고 정규 분포를 가진 랜덤한 값으로 입력
@@ -98,7 +98,7 @@ def matrix_factorization(R, K, steps=200, learning_rate=0.01, r_lambda=0.01):
         
     return P, Q
 
-def get_unplayed_themes(review_matrix, userName):
+def get_unplayed_themes_rate(review_matrix, userName):
     # userId로 입력받은 사용자의 모든 영화 정보를 추출해 Series로 반환
     # 반환된 user_rating은 영화 제목을 인덱스로 가지는 Series 객체
     user_rating = review_matrix.loc[userName,:]
@@ -114,7 +114,7 @@ def get_unplayed_themes(review_matrix, userName):
     
     return unplayed_list
 
-def recomm_movie_by_userid(pred_df, userId, unseen_list, top_n=10):
+def recomm_movie_by_userid_rate(pred_df, userId, unseen_list, top_n=10):
     recomm_movies = pred_df.loc[userId, unseen_list].sort_values(ascending=False)[:top_n]
     
     return recomm_movies
@@ -124,11 +124,17 @@ def recomm_movie_by_userid(pred_df, userId, unseen_list, top_n=10):
 def recommendThema1(request):
     data_list = json.loads(request.body)
 
-    print(data_list)
-
     review_list = Review.objects.all()
     matrix = pd.DataFrame.from_records([c.to_dict() for c in review_list])
-    review_matrix = matrix.pivot_table('user_rate', index='user_nickname', columns='thema_name', aggfunc='first') # 사용자-테마 행렬
+
+    for i in range(len(data_list)):
+        review_list = data_list[i]
+        data = {'thema_name': review_list['thema_name'], 'user_rate': float(review_list['user_rate']),
+                'user_nickname': 'ESCAPABLE'}
+        matrix = matrix.append(data, ignore_index = True)
+
+    review_matrix = matrix.pivot_table('user_rate', index='user_nickname', columns='thema_name',
+                                       aggfunc='first')  # 사용자-테마 행렬
 
     P, Q = matrix_factorization(review_matrix.values, K=50, steps=10, learning_rate=0.01, r_lambda=0.01)
     pred_matrix = np.dot(P, Q.T)
@@ -136,18 +142,16 @@ def recommendThema1(request):
     ratings_pred_matrix = pd.DataFrame(data=pred_matrix, index=review_matrix.index, columns=review_matrix.columns)
 
     # 사용자가 관람하지 않은 영화제목 추출
-    unplayed_list = get_unplayed_themes(review_matrix, ' 탈출출해')
+    unplayed_list = get_unplayed_themes(review_matrix, 'ESCAPABLE')
 
     # 잠재 요인 협업 필터링으로 영화 추천
-    recomm_themes = recomm_movie_by_userid(ratings_pred_matrix, ' 탈출출해', unplayed_list, top_n=5)
+    recomm_themes = recomm_movie_by_userid(ratings_pred_matrix, 'ESCAPABLE', unplayed_list, top_n=6)
 
     # 평점 데이터를 DataFrame으로 생성
     recomm_themes = pd.DataFrame(data=recomm_themes.values, index=recomm_themes.index, columns=['pred_score'])
 
-    print(recomm_themes)
-
     context = {
-        'result': recomm_themes,
+        'result': list(recomm_themes.index.values),
     }
 
     return JsonResponse(context, safe=False)
