@@ -4,8 +4,8 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 from django.http import JsonResponse
 
-import pandas as pd
 import numpy as np
+import pandas as pd
 from sklearn.metrics import mean_squared_error
 
 from .models import Review
@@ -33,7 +33,6 @@ def recommend1(request):
     }
 
     return render(request, 'recommend1.html', context)
-
 
 def recommend2(request):
     cafe_list = Cafe.objects.all()
@@ -203,7 +202,7 @@ def recommendThema1(request):
     }
 
     return JsonResponse(context, safe=False)
-
+    
 
 @csrf_exempt
 def recommendThema2(request):
