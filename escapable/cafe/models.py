@@ -12,6 +12,14 @@ class Cafe(models.Model):
         managed = False
         db_table = 'cafe'
 
+    def to_dict(self):
+        return {
+            "cafe_index" : self.cafe_index,
+            "cafe_name" : self.cafe_name,
+            "cafe_info" : self.cafe_info,
+            "cafe_number" : self.cafe_number,
+            "cafe_address" : self.cafe_address
+        }
 
 class Review(models.Model):
     review_index = models.AutoField(primary_key=True)
@@ -26,6 +34,18 @@ class Review(models.Model):
     class Meta:
         managed = False
         db_table = 'review'
+    
+    def to_dict(self):
+        return {
+            "review_index" : self.review_index,
+            "cafe_name" : self.cafe_name,
+            "thema_name" : self.thema_name,
+            "user_left_time" : self.user_left_time,
+            "user_difficulty" : self.user_difficulty,
+            "user_escape" : self.user_escape,
+            "user_rate" : self.user_rate,
+            "user_nickname" : self.user_nickname
+        }
 
 
 class Thema(models.Model):
@@ -43,3 +63,17 @@ class Thema(models.Model):
     class Meta:
         managed = False
         db_table = 'thema'
+
+    def to_dict(self):
+        return {
+            "thema_index" : self.thema_index,
+            "cafe_name" : self.cafe_name,
+            "thema_name" : self.thema_name,
+            "thema_limit_time" : self.thema_limit_time,
+            "thema_genre" : self.thema_genre,
+            "thema_level" : self.thema_level,
+            "thema_activity" : self.thema_activity,
+            "thema_number_of_people" : self.thema_number_of_people,
+            "thema_info" : self.thema_info,
+            "thema_picture" : self.thema_picture
+        }
