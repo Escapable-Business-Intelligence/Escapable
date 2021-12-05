@@ -197,12 +197,16 @@ def recommendThema1(request):
     # 평점 데이터를 DataFrame으로 생성
     recomm_themes = pd.DataFrame(data=recomm_themes.values, index=recomm_themes.index, columns=['pred_score'])
 
-    recommend1 = dict()
+    recommend1 = []
     for theme in list(recomm_themes.index.values):
       thema = Thema.objects.get(thema_name=theme)
-      recommend1['thema1'] = thema
+      recommend1.append(thema)
+    
+    context = {
+      'theme':recommend1
+    }
 
-    return JsonResponse(recommend1, safe=False)
+    return JsonResponse(context, safe=False)
 
 
 @csrf_exempt
