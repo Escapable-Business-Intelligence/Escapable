@@ -57,19 +57,67 @@
 			</div>
 			<!-- /.container-fluid -->
 		</nav>
-
 		<!-- Header -->
 		<header>
 			<div class="container">
 				<div class="slider-container">
 					<div class="intro-text">
-						<div class="intro-lead-in">Tell me your preference about room escape thema</div><br>
-						<a href="/recommend1" class="page-scroll btn btn-xl" style="height: 80px;">방탈출 테마 추천만 받을래요</a>
-						<a href="/recommend2" class="page-scroll btn btn-xl" style="height: 80px;">방탈출 테마 추천뿐만 아니라 <br> 탈출 예측에 대한 정보도 받고 싶어요</a>
+						<div class="intro-lead-in">방탈출 테마 정보 자세히 보기</div><br>
 					</div>
 				</div>
 			</div>
 		</header>
+		<section class="light-bg">
+			<div class="container">
+				<div class="row">
+					<div class="section-text">
+					
+					{% for theme in thema %}
+						<div class="section-text">
+							<h3>{{theme.thema_name}}</h3>
+							<h5>{{theme.cafe_name}}</h5>
+
+							<br>
+
+							<img src="{{theme.thema_picture}}" class="img-responsive" alt="portfolio" style="height: 300PX;">
+
+							<p>{{theme.thema_info}}</p>
+							<table>
+								<tr>
+									<td style="width: 100px;">제한 시간</td>
+									<td>{{theme.thema_limit_time}}</td>
+								</tr>
+								<tr>
+									<td>장르</td>
+									<td>{{theme.thema_genre}}</td>
+								</tr>
+								<tr>
+									<td>난이도</td>
+									<td>{{theme.thema_level}}</td>
+								</tr>
+								<tr>
+									<td>활동성</td>
+									<td>{{theme.thema_activity}}</td>
+								</tr>
+								<tr>
+									<td>제한 인원</td>
+									<td>{{theme.thema_number_of_people}}</td>
+								</tr>
+							</table>
+						</div>
+					{% endfor %}
+
+					<br>
+
+					</div>
+				</div>
+				<div class="owl-portfolio-item"><button type="button" class="page-scroll btn btn-xl" onclick="history.back()">뒤로가기</button></div>
+			</div>
+
+			<div style="margin: 200px;">	
+			</div>
+			
+		</section>
 
 		<footer>
 			<div class="container text-center">
@@ -88,6 +136,5 @@
 		<script src="{% static 'js/jquery.appear.js' %}"></script>
 		<script src="{% static 'js/SmoothScroll.min.js' %}"></script>
 		<script src="{% static 'js/mooz.themes.scripts.js' %}"></script>
-
 	</body>
 </html>

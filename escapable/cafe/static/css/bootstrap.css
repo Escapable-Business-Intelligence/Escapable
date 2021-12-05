@@ -6915,3 +6915,52 @@ select::-ms-expand {
   -moz-appearance: none; 
   appearance: none; 
 }
+
+.modal_wrap{
+  display: none;
+  width: 500px;
+  height: 500px;
+  position: absolute;
+  top:50%;
+  left: 50%;
+  margin: -250px 0 0 -250px;
+  background:#eee;
+  z-index: 2;
+}
+.black_bg{
+  display: none;
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 100%;
+  background-color:rgba(0, 0,0, 0.5);
+  top:0;
+  left: 0;
+  z-index: 1;
+}
+
+#my_modal {
+  display: none;
+  width: 300px;
+  padding: 20px 60px;
+  background-color: #fefefe;
+  border: 1px solid #888;
+  border-radius: 3px;
+}
+
+#my_modal .modal_close_btn {
+  display: none;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  text-shadow: 0 1px 0 #fff;
+  font-size: 1.3rem;
+  padding:2px 5px;
+  font-weight: 700;
+}
+
+#my_modal .modal_close_btn:hover {
+  border: 0;
+  cursor:pointer;
+  opacity: .75;
+}

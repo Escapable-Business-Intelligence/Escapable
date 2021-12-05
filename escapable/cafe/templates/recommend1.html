@@ -151,10 +151,10 @@
 			</div>
 		</section>
 		
-		
-		<p id="back-top">
-			<a href="#top"><i class="fa fa-angle-up"></i></a>
-		</p>
+		<div id="my_modal">
+			<a class="modal_close_btn">X</a>
+			<div id="modal"></div>
+        </div>
 
 		<footer>
 			<div class="container text-center">
@@ -175,7 +175,7 @@
 		<script src="{% static 'js/mooz.themes.scripts.js' %}"></script>
 
 		<script>
-		
+
 		var num = 1;
 
 			function action_add(){
@@ -222,7 +222,7 @@
 									</table></li>");
 			}
 
-			function searchThema(num) {
+			function searchThema(num){
 				var cafeName = $("#cafe_"+ num + " > option:selected").val();
 
 				$.ajax({ 
@@ -292,6 +292,8 @@
 					data_list.push(data);
 				}
 
+				alert("리뷰를 분석 중입니다. 잠시만 기다려주세요.");
+
 				$.ajax({ 
 					type: 'POST', 
 					url: "/recommendThema1",
@@ -299,26 +301,32 @@
 					data: JSON.stringify(data_list),
 					success: function(data){
 						if(data) {
-							var list = data.result;
+							var list = data;
 
 							if(Array.isArray(list) && list.length === 0) {
 								$("#results").html("추천테마가 없습니다.");
 							}
 							else {
-								alert(list);
 								$(list).each(function(i) {
+									var thema_index = list[i].thema_index;
 									var cafe_name = list[i].cafe_name;
 									var thema_name = list[i].thema_name;
+									var thema_limit_time = list[i].thema_limit_time;
+									var thema_genre = list[i].thema_genre;
+									var thema_level = list[i].thema_level;
+									var thema_activity = list[i].thema_activity;
+									var thema_number_of_people = list[i].thema_number_of_people;
+									var thema_info = list[i].thema_info;
+									thema_info = thema_info.replaceAll("\"", "");
 									var thema_picture = list[i].thema_picture;
 
 									var html = "<div class='col-md-4 col-0-gutter'>\
-													<div class='ot-portfolio-item'>\
+													<div class='ot-portfolio-item' onclick=\"modal('" + cafe_name + "', '" + thema_name + "', '" + thema_limit_time + "', '" + thema_genre + "', '" + thema_level + "', '" + thema_activity + "', '" + thema_number_of_people + "', '" + thema_info + "', '" + thema_picture + "')\" style='cursor:pointer;'>\
 														<figure class='effect-bubba'>\
-															<img src='{% static 'images/demo/portfolio-1.jpg' %}' alt='img02' class='img-responsive' />\
+															<img src='" + thema_picture + "' alt='img02' class='img-responsive' />\
 															<figcaption>\
 																<h2>" + thema_name + "</h2>\
 																<p>" + cafe_name + "</p>\
-																<a href='#' data-toggle='modal' data-target='#Modal-1'>View more</a>\
 															</figcaption>\
 														</figure>\
 													</div>\
@@ -327,16 +335,127 @@
 								});
 							}
 
-							alert("결과페이지로 이동");
+							alert("분석이 완료 되었습니다. 결과페이지로 이동합니다.");
 							location.href = "#result";
 						} 
 					},
 					error: function(error) {
-						alert(error);
+						alert("에러가 발생했습니다 " + error);
+					},
+					beforeSend: function () {
+						var width = 0;
+						var height = 0;
+						var left = 0;
+						var top = 0;
+
+						width = 50;
+						height = 50;
+
+						top = ( $(window).height() - height ) / 2 + $(window).scrollTop();
+						left = ( $(window).width() - width ) / 2 + $(window).scrollLeft();
+
+						if($("#div_ajax_load_image").length != 0) {
+							$("#div_ajax_load_image").css({
+								"top": top + "px",
+								"left": left + "px"
+							});
+							$("#div_ajax_load_image").show();
+						}
+						else {
+							$("body").append("<div id='div_ajax_load_image' style='position:absolute; top:" + top + "px; left:" + left + "px; width:" + width + "px; height:" + height + "px; z-index:9999; background:#f0f0f0; filter:alpha(opacity=50); opacity:alpha*0.5; margin:auto; padding:0; '><img src='{% static 'images/loading.gif' %}' style='width:50px; height:50px;'></div>");
+						}
+					},
+					complete: function () {
+						$("#div_ajax_load_image").hide();
 					}
 				});
 
 			}
+
+			function modal(cafe_name, thema_name, thema_limit_time, thema_genre, thema_level, thema_activity, thema_number_of_people, thema_info, thema_picture){
+				
+				var html = "<div>\
+							<h3>" + thema_name + "</h3>\
+							<h5>" + cafe_name + "</h5>\
+							<br>\
+							<img src=" + thema_picture + " class='img-responsive' alt='portfolio' style='height: 300PX;'>\
+							<p>" + thema_info + "</p>\
+							<table>\
+								<tr>\
+									<td style='width: 100px;'>제한 시간</td>\
+									<td>" + thema_limit_time + "</td>\
+								</tr>\
+								<tr>\
+									<td>장르</td>\
+									<td>" + thema_genre + "</td>\
+								</tr>\
+								<tr>\
+									<td>난이도</td>\
+									<td>" + thema_level + "</td>\
+								</tr>\
+								<tr>\
+									<td>활동성</td>\
+									<td>" + thema_activity + "</td>\
+								</tr>\
+								<tr>\
+									<td>제한 인원</td>\
+									<td>" + thema_number_of_people + "</td>\
+								</tr>\
+							</table>\
+							<div>";
+
+				$("#modal").html(html);
+
+				var zIndex = 9999;
+                var modal = document.getElementById('my_modal');
+
+                // 모달 div 뒤에 희끄무레한 레이어
+                var bg = document.createElement('div');
+                bg.setStyle({
+                    position: 'fixed',
+                    zIndex: zIndex,
+                    left: '0px',
+                    top: '0px',
+                    width: '100%',
+                    height: '100%',
+                    overflow: 'auto',
+                    // 레이어 색갈은 여기서 바꾸면 됨
+                    backgroundColor: 'rgba(0,0,0,0.4)'
+                });
+                document.body.append(bg);
+
+                // 닫기 버튼 처리, 시꺼먼 레이어와 모달 div 지우기
+                modal.querySelector('.modal_close_btn').addEventListener('click', function() {
+                    bg.remove();
+                    modal.style.display = 'none';
+                });
+
+                modal.setStyle({
+                    position: 'fixed',
+                    display: 'block',
+                    boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
+
+                    // 시꺼먼 레이어 보다 한칸 위에 보이기
+                    zIndex: zIndex + 1,
+
+                    // div center 정렬
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    msTransform: 'translate(-50%, -50%)',
+                    webkitTransform: 'translate(-50%, -50%)',
+					backgroundColor: 'white',
+					padding: '20px',
+					borderRadius: '10px'
+                });
+
+			}
+
+			// Element 에 style 한번에 오브젝트로 설정하는 함수 추가
+			Element.prototype.setStyle = function(styles) {
+				for (var k in styles) this.style[k] = styles[k];
+				return this;
+			};
 
 		</script>
 	</body>

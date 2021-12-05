@@ -17,8 +17,15 @@ def index(request):
     return render(request, 'index.html')
 
 
-def detail(request, cafe_index):
-    return HttpResponse("You're looking at cafe %s." % cafe_index)
+def thema(request, thema_index):
+
+    thema = Thema.objects.filter(thema_index=thema_index)
+
+    context = {
+        'thema': thema,
+    }
+
+    return render(request, 'thema.html', context)
 
 
 def recommend(request):
@@ -43,7 +50,6 @@ def recommend2(request):
     }
 
     return render(request, 'recommend2.html', context)
-
 
 @csrf_exempt
 def selectThema(request):
@@ -321,6 +327,7 @@ def Predict_Escape(pred_df, user_Id, datas):
         else:
             data_list.append('탈출 성공')
     return data_list
+    
 def Predict_Difficulty(pred_df, user_Id, datas):
     print(pred_df)
     data_list = list()
