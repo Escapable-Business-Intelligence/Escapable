@@ -494,7 +494,7 @@ def recommendThema2(request):
         result_list[i][2] = predict_difficulty[i]
 
     cnt = 0
-    recommend1 = []
+    recommend2 = []
     for theme in list(recomm_themes.index.values):
         thema = Thema.objects.get(thema_name=theme)
         db = dict()
@@ -511,11 +511,9 @@ def recommendThema2(request):
         db['pred_escape'] = predict_escape[cnt]
         db['pred_difficulty'] = predict_difficulty[cnt]
         cnt+=1
-        recommend1.append(db)
-        print(recommend1)
+        recommend2.append(db)
+        print(db)
+    
+    print(recommend2)
 
-    context = {
-        'result': db,
-    }
-
-    return JsonResponse(context, safe=False)
+    return JsonResponse(recommend2, safe=False)
