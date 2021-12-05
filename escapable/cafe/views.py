@@ -200,13 +200,23 @@ def recommendThema1(request):
     recommend1 = []
     for theme in list(recomm_themes.index.values):
       thema = Thema.objects.get(thema_name=theme)
-      recommend1.append(thema)
-    
-    context = {
-      'theme':recommend1
-    }
+      db = dict()
+      db['thema_index'] = thema.thema_index
+      db['cafe_name'] = thema.cafe_name
+      db['thema_name'] = thema.thema_name
+      db['thema_limit_time'] = thema.thema_limit_time
+      db['thema_genre'] = thema.thema_genre
+      db['thema_level'] = thema.thema_level
+      db['thema_activity'] = thema.thema_activity
+      db['thema_number_of_people'] = thema.thema_number_of_people
+      db['thema_info'] = thema.thema_info
+      db['thema_picture'] = thema.thema_picture
+      recommend1.append(db)
 
-    return JsonResponse(context, safe=False)
+    print(recommend1)
+
+
+    return JsonResponse(recommend1, safe=False)
 
 
 @csrf_exempt
