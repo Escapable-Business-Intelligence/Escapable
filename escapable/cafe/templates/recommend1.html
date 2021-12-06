@@ -311,7 +311,7 @@
 									var thema_index = list[i].thema_index;
 									var cafe_name = list[i].cafe_name;
 									var thema_name = list[i].thema_name;
-									var thema_limit_time = list[i].thema_limit_time;
+									var thema_limit_time = list[i].thema_limit_time / 60;
 									var thema_genre = list[i].thema_genre;
 									var thema_level = list[i].thema_level;
 									var thema_activity = list[i].thema_activity;
@@ -383,7 +383,7 @@
 							<table>\
 								<tr>\
 									<td style='width: 100px;'>제한 시간</td>\
-									<td>" + thema_limit_time + "</td>\
+									<td>" + thema_limit_time + "분</td>\
 								</tr>\
 								<tr>\
 									<td>장르</td>\
