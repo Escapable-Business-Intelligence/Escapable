@@ -48,8 +48,8 @@
 ![image](https://user-images.githubusercontent.com/55437339/146642568-14dcc9f7-9c41-43a7-9e04-ce11c3ec505a.png)  
 추천 대상자의 예측 평점 평가 결과  
   
-![image](https://user-images.githubusercontent.com/55437339/146642595-166cffaf-ceb3-4475-957f-a74ce173edfb.png)  
+![image](https://user-images.githubusercontent.com/55437339/146642653-cabf4857-1760-4801-ab74-37338dbe5e0b.png)  
 추천 대상자의 탈출 성공 여부의 예측 결과 평가 결과  
   
-![image](https://user-images.githubusercontent.com/55437339/146642624-d9d614d0-4d14-4afd-9ccf-49b5fa5c949c.png)  
+![image](https://user-images.githubusercontent.com/55437339/146642658-43c321e8-2db6-4f26-8cd1-3935c4ca0d3f.png)  
 추천 대상자의 체감 난이도의 예측 결과 평가 결과  
