@@ -24,3 +24,32 @@
 
 -------------------
   ![image](https://user-images.githubusercontent.com/55437339/139399748-8942524c-7991-4beb-8526-d9cfb3c27b7e.png)
+    
+      
+        
+        
+### 5. 웹 구성
+![image](https://user-images.githubusercontent.com/55437339/146642418-0c59ad18-299b-41a0-a51c-975385e8409b.png)  
+초록색 버튼을 누르면 설문조사 유형을 선택할 수 있다.  
+  
+![image](https://user-images.githubusercontent.com/55437339/146642447-6b018065-021c-4823-be36-12b96f1813a8.png)  
+왼쪽 추천 형식은 테마 추천만, 오른쪽 추천 형식은 테마 추천 뿐만 아니라 탈출 성공과 체감 난이도 예측 결과까지 받아볼 수 있다.  
+  
+![image](https://user-images.githubusercontent.com/55437339/146642486-626bf43b-c63c-464a-9db2-c4897b51c606.png)  
+경험해 본 테마와 그 평점만 남기면 테마를 추천받아볼 수 있다. (데이터가 많을수록 정확도가 높아진다.)  
+  
+![image](https://user-images.githubusercontent.com/55437339/146642521-cf124d65-f86c-48c8-a65e-f28a4b8f527b.png)  
+경험해 본 테마와 그 평점, 체감 난이도, 탈출 성공 여부를 남기면 테마와 그 성공 여부, 체감 난이도 예측 결과도 추가로 받아볼 수 있다. (데이터가 많을수록 정확도가 높아진다.)  
+    
+      
+        
+        
+ ### 6. 평가 방식
+![image](https://user-images.githubusercontent.com/55437339/146642568-14dcc9f7-9c41-43a7-9e04-ce11c3ec505a.png)  
+추천 대상자의 예측 평점 평가 결과  
+  
+![image](https://user-images.githubusercontent.com/55437339/146642595-166cffaf-ceb3-4475-957f-a74ce173edfb.png)  
+추천 대상자의 탈출 성공 여부의 예측 결과 평가 결과  
+  
+![image](https://user-images.githubusercontent.com/55437339/146642624-d9d614d0-4d14-4afd-9ccf-49b5fa5c949c.png)  
+추천 대상자의 체감 난이도의 예측 결과 평가 결과  
